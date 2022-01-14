@@ -9,6 +9,8 @@
 `npm run dev`
 ### 4、生产环境开发
 
-`npm run build`
-`npm run prod`
+```
+npm run build
+npm run prod
+```
 
