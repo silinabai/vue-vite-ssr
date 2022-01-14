@@ -3,7 +3,7 @@ import { createStore as _createStore } from 'vuex';
 export default function createStore() {
   return _createStore({
     state: {
-      message: 'Hello vite2 vue3 ssr',
+      message: '',
     },
     mutations: {},
     actions: {

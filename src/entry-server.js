@@ -4,7 +4,7 @@ import { renderToString } from '@vue/server-renderer';
 import createStore from './store';
 import createRouter from './router';
 import path, { basename } from 'path';
-
+import { nextTick } from 'process';
 
 export async function render(url, manifest) {
   const router = createRouter();
@@ -16,6 +16,32 @@ export async function render(url, manifest) {
   router.push(url);
 
   await router.isReady();
+
+  // 数据预取
+
+  const to = router.currentRoute;
+  const matchedRoute = to.value.matched;
+
+  if (!matchedRoute.length) {
+    return '';
+  }
+  const matchedComponents = [];
+   matchedRoute.map((route) => {
+    matchedComponents.push(...Object.values(route.components));
+  });
+
+  try {
+    await Promise.all(matchedComponents.map(Component => {
+      if (Component.asyncData) {
+        return Component.asyncData({
+          store,
+          route: router.currentRoute
+        })
+      }
+    }));
+  } catch (error) {
+    next(err);
+  }
 
   const context = {};
   const appHtml = await renderToString(app, context);
