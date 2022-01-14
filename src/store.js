@@ -11,7 +11,7 @@ export default function createStore() {
         return new Promise((resolve) => {
           setTimeout(() => {
             state.message = 'Hello vite2 vue3 ssr typescript scss vuex vue-router';
-            resolve(0);
+            resolve(state.message);
           }, 200);
         });
       },
