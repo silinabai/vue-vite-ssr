@@ -56,9 +56,9 @@ async function createApp(){
         render = server.render;
       }
 
-      const { appHtml, preloadLinks } = await render(url, manifest);
+      const { appHtml, preloadLinks, state } = await render(url, manifest);
 
-      const html = template.replace(`<!--preload-links-->`, preloadLinks).replace(`<!--ssr-outlet-->`, appHtml);
+      const html = template.replace(`<!--preload-links-->`, preloadLinks).replace(`<!--ssr-outlet-->`, appHtml).replace(`'<!--vuex-state-->'`, JSON.stringify(state));
 
       // console.log(html, 'appHtml');
 

@@ -4,7 +4,6 @@ import { renderToString } from '@vue/server-renderer';
 import createStore from './store';
 import createRouter from './router';
 import path, { basename } from 'path';
-import { nextTick } from 'process';
 
 export async function render(url, manifest) {
   const router = createRouter();
@@ -43,11 +42,13 @@ export async function render(url, manifest) {
     next(err);
   }
 
+  const state = store.state;
+
   const context = {};
   const appHtml = await renderToString(app, context);
 
   const preloadLinks = renderPreloadLinks(context.modules, manifest)
-  return { appHtml, preloadLinks };
+  return { appHtml, preloadLinks, state };
 }
 
 function renderPreloadLinks(modules, manifest) {

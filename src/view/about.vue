@@ -3,7 +3,8 @@
 <template>
   <div>
       <h1>{{ msg }}</h1>
-      <p class="import-meta-url">{{ store.state.message }}</p>
+      <p class="import-meta-url">{{ message }}</p>
+      <p class="import-meta-url">{{ store.state.age }}</p>
       <img src="../assets/test.jpeg" alt="">
   </div>
 </template>
@@ -13,15 +14,17 @@ import {defineComponent, onMounted, ref} from 'vue';
 
 export default defineComponent({
   asyncData({ store }){
-       return store.dispatch('fetchMessage');
+     return store.dispatch('fetchMessage');
   },
   setup() {
     const store = useStore();
+    const message = store.state.message;
     onMounted(async()=>{
       
     })
     return {
       msg: 'About',
+      message,
       store
     }
   },
